@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import { handleUser } from '@/lib/api'
 import { handleInput } from '@/lib/service'
 import { useUserStore } from '@/lib/stores/useUser'
+import Link from 'next/link'
 
 export default function Register() {
   const [email, setEmail] = useState<string>('')
@@ -62,6 +63,7 @@ export default function Register() {
         >
         Se connecter
         </button>
+        <Link href={'/auth/register'}> Créer un compte</Link>
       </form>
     </div>
   )
