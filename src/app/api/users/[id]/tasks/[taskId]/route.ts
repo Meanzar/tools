@@ -27,7 +27,7 @@ export async function PUT(request: NextRequest, props: { params: { taskId: strin
   try {
     body = await request.json();
     console.log(body)
-  } catch (error) {
+  } catch {
     return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400 });
   }
 
