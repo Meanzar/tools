@@ -4,3 +4,15 @@ export function handleInput(
 ) {
     setInput(input)
 }
+
+export function handleArrayInput(
+
+    input: string[], 
+
+    setInput: React.Dispatch<React.SetStateAction<string[]>>
+
+) {
+
+    setInput(input)
+
+}

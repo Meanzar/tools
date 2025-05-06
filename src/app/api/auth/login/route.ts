@@ -4,7 +4,7 @@ import { NextRequest } from "next/server";
 import bcrypt from 'bcrypt'
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET
+const JWT_SECRET = process.env.JWT_SECRET || "default_secret";
 
 export async function POST(request: NextRequest) {
     // creer un token si la connexion réussis
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
             _id: user._id.toString(),
             email: user.email
         },
-        JWT_SECRET,
+        JWT_SECRET!,
         {expiresIn : "7d"}
     );
 

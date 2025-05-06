@@ -3,8 +3,8 @@ import { TaskInputSchema } from "@/models/schema";
 import { ObjectId } from "mongodb";
 import { NextRequest } from "next/server";
 
-export async function GET(request: NextRequest,  props: {params: {taskId: string}}) {
-    const taskId =  (props.params.taskId)
+export async function GET(request: NextRequest,  props: {params: Promise<{taskId: string}>}) {
+    const taskId =  (await props.params).taskId
     if (!ObjectId.isValid(taskId)) {
         return new Response(JSON.stringify({ error: "Invalid task ID" }), {
           status: 400,
@@ -20,8 +20,8 @@ export async function GET(request: NextRequest,  props: {params: {taskId: string
     return Response.json(task)
 }
 
-export async function PUT(request: NextRequest, props: { params: { taskId: string } }) {
-  const taskId = props.params.taskId;
+export async function PUT(request: NextRequest, props: { params: Promise<{ taskId: string }>}) {
+  const taskId = (await props.params).taskId
 
   let body;
   try {

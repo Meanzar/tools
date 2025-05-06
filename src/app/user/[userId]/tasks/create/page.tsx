@@ -1,6 +1,6 @@
 "use client"
 import { postData } from '@/lib/api'
-import { handleInput } from '@/lib/service'
+import { handleArrayInput, handleInput } from '@/lib/service'
 import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
 
@@ -48,7 +48,7 @@ export default function CreateTask() {
         <input
           type="text"
           placeholder="frontend, urgent, sprint-1"
-          onChange={(e) => handleInput(
+          onChange={(e) => handleArrayInput(
             e.target.value.split(',').map(tag => tag.trim()).filter(Boolean),
             setTags
           )}

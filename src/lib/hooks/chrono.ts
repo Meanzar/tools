@@ -9,30 +9,27 @@ import type { ObjectId } from '@/lib/type';
 export function useChrono(
   end: Timer,
   userId?: ObjectId,
-  selectedTaskIds?: string[] // ✅ tableau de tâches sélectionnées
+  selectedTaskIds?: string[]
 ) {
-  const [isStart, setIsStart] = useState(false);              // Chrono actif ?
-  const [isPause, setIsPause] = useState(false);              // Pause active ?
-  const [endSound, setEndSound] = useState<HTMLAudioElement | null>(null); // Son de fin
+  const [isStart, setIsStart] = useState(false);              
+  const [isPause, setIsPause] = useState(false);             
+  const [endSound, setEndSound] = useState<HTMLAudioElement | null>(null);
   const [timer, setTimer] = useState<Timer>({ min: 0, second: 0, loop: end.loop });
-  const [tasks, setTasks] = useState<Task[]>([]);             // Tâches de la session
+  const [tasks, setTasks] = useState<Task[]>([]);           
   const [pomodoreTasksId, setPomodoreTasksId] = useState<ObjectId | null>(null);
 
-  // Préparation du son à la première exécution (client-only)
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setEndSound(new Audio('/alarm-sounding.mp3'));
     }
   }, []);
 
-  // Lancement du chrono
   async function start() {
     if (end.loop === 0) {
       alert("Missing Loop");
       return;
     }
     console.log(userId)
-    // Si utilisateur connecté et tâches sélectionnées, créer le rush
     if (userId && selectedTaskIds && selectedTaskIds.length > 0) {
       console.log("Selected tasks:", selectedTaskIds);
       const response = await postData(`/api/users/${userId}/rushs`, {
@@ -54,14 +51,12 @@ export function useChrono(
     setIsStart(true);
   }
 
-  // Arrêt du chrono
   async function stop() {
     setIsStart(false);
     setIsPause(false);
     setTimer({ min: 0, second: 0, loop: 0 });
   }
 
-  // Changement d'état d'une tâche entre todo/done
   async function toggleTaskStatus(taskId: ObjectId) {
     if (!Array.isArray(tasks)) {
       console.warn("toggleTaskStatus called but tasks is not an array:", tasks);
@@ -89,7 +84,6 @@ export function useChrono(
     }
   }
 
-  // Moteur du chrono (boucle de temps)
   useEffect(() => {
     if (!isStart) return;
 
@@ -112,6 +106,10 @@ export function useChrono(
             endSound?.play();
           }
         } else if (newMin >= end.min && newSecond >= end.second) {
+          if (newLoop == null) {
+            console.error("error spotted");
+            return prev; 
+          }
           if (newLoop > 1) {
             newLoop -= 1;
             newMin = 0;

@@ -62,7 +62,7 @@ export default function PomodorePage() {
     : `${pad(end.min >= 50 ? Math.max(0, 10 - chrono.timer.min) : Math.max(0, 5 - chrono.timer.min))} min  ${pad(Math.max(0, (60 + end.second - chrono.timer.second) % 60))} s`;
 
   useEffect(() => {
-  setSelectedTasks(chrono.tasks);
+  return setSelectedTasks(chrono.tasks.map(task => task._id.toString()));
 }, [chrono.tasks]);
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-10">

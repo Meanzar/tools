@@ -2,14 +2,17 @@ import { NextRequest } from "next/server";
 import clientPromise from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 
+
+
 export async function GET(
   request: NextRequest,
-  context: { params: { id: string; rushId: string } }
+   {params} : { params: Promise<{ id: string; rushId: string }>} 
 ) {
   const client = await clientPromise;
   const db = client.db("tools");
 
-  const {id: userId, rushId } = context.params
+  const userId = (await params).id
+  const rushId = (await params).rushId
 
   if (!ObjectId.isValid(rushId) || !ObjectId.isValid(userId)) {
     return new Response(JSON.stringify({ error: "Invalid ID" }), { status: 400 });
