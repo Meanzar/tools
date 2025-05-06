@@ -1,11 +1,5 @@
 import Link from "next/link"
 import { Card, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
-import { Metadata } from "next"
-
-export const metadata: Metadata = {
-  title: "Accueil - toOlS",
-  description: "Page d'accueil de toOlS"
-}
 
 export default function Home() {
   return (
