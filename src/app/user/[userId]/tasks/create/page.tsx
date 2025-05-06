@@ -4,6 +4,11 @@ import { handleArrayInput, handleInput } from '@/lib/service'
 import { useParams, useRouter } from 'next/navigation'
 import React from 'react'
 
+export const metadata = {
+  title: "Creation - Tâche",
+  description: "Page de création de tâche",
+}
+
 export default function CreateTask() {
   const params = useParams()
   const router =  useRouter()
@@ -11,7 +16,7 @@ export default function CreateTask() {
   const [title, setTitle] = React.useState<string>("")
   const [tags, setTags] = React.useState<string[]>([])
 
-
+  
 
   const url = `/api/users/${userId}/tasks`
 

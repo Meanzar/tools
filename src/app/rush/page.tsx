@@ -12,6 +12,12 @@ import { Progress } from '@/components/ui/progress';
 import { getData } from '@/lib/api';
 import Link from 'next/link';
 import { useUserStore } from '@/lib/stores/useUser';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Rush",
+  description: 'Personnalise le rush'
+}
 
 export default function PomodorePage() {
   const [end, setEnd] = useState<Timer>({
