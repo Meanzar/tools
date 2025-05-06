@@ -73,7 +73,7 @@ export default function PomodorePage() {
             <>
               <div>
                 <h1 className="text-4xl font-bold text-[#8F2412] mb-6">Configuration</h1>
-                <h2 className="text-lg font-semibold mb-4">Durée d'une séance</h2>
+                <h2 className="text-lg font-semibold mb-4">Durée d&apos;une séance</h2>
                 <RadioGroup
                   defaultValue="24"
                   onValueChange={(value) => setEnd({ ...end, min: parseInt(value) })}
@@ -244,7 +244,7 @@ export default function PomodorePage() {
                 })()
               ) : (
                 <div className="p-4 bg-gray-100 text-gray-600 border border-gray-300 rounded">
-                  Aucune tâche pour l'instant.
+                  Aucune tâche pour l&apos;instant.
                 </div>
               )}
             </div>

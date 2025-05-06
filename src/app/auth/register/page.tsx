@@ -18,9 +18,7 @@ export default function Register() {
     const body = { email, password, name }
 
     const res = await handleUser(url, body)
-
-    console.log(res.ok)
-    if (res.ok) {
+    if (res?.ok) {
       router.push('/auth/login')
     } else {
       console.error("Erreur lors de l'inscription")
@@ -71,7 +69,7 @@ export default function Register() {
           type="submit"
           className="w-full bg-[#8F2412] text-white py-2 rounded hover:bg-[#6b1f0e]"
         >
-          S'inscrire
+          S&apos;inscrire
         </button>
       </form>
     </div>

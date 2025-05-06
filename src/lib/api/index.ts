@@ -15,10 +15,11 @@ export async function getData(url: string) {
 
     catch(error) {
         console.error(error)
+        return { ok: false, status: 500, data: null }
     }
 }
 
-export async function postData(url: string, data: any) {
+export async function postData(url: string, data: unknown) {
     try {
         const req = await fetch(url, {
             'method': 'POST', 'cache': 'no-store', 
@@ -33,10 +34,11 @@ export async function postData(url: string, data: any) {
 
     catch(error) {
         console.error(error)
+        return { ok: false, status: 500, data: null }
     }
 }
 
-export async function putData(url: string, data: any ) {
+export async function putData(url: string, data: unknown ) {
     try {
         const req = await fetch(url, {
             'method': 'PUT', 'cache': 'no-store', 
@@ -51,10 +53,11 @@ export async function putData(url: string, data: any ) {
 
     catch(error) {
         console.error(error)
+        return { ok: false, status: 500, data: null }
     }
 }
 
-export async function deleteData(url: string, data: any) {
+export async function deleteData(url: string, data: string) {
     try {
         const req = await fetch(url, {
             'method': 'DELETE', 'cache': 'no-store', 
@@ -70,6 +73,7 @@ export async function deleteData(url: string, data: any) {
 
     catch(error) {
         console.error(error)
+        return { ok: false, status: 500, data: null }
     }
 }
 
@@ -87,6 +91,7 @@ export async function handleUser(url: string, data: User) {
         return { ok: req.ok, status: req.status, data: json } 
     } catch (error) {
         console.error(error)
+        return { ok: false, status: 500, data: null }
     }
 
 }

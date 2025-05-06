@@ -60,7 +60,7 @@ export default function Register() {
           type="submit"
           className="w-full bg-[#8F2412] text-white py-2 rounded hover:bg-[#6b1f0e]"
         >
-          S'inscrire
+        Se connecter
         </button>
       </form>
     </div>
