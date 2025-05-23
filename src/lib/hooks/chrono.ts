@@ -29,16 +29,14 @@ export function useChrono(
       alert("Missing Loop");
       return;
     }
-    console.log(userId)
     if (userId && selectedTaskIds && selectedTaskIds.length > 0) {
-      console.log("Selected tasks:", selectedTaskIds);
       const response = await postData(`/api/users/${userId}/rushs`, {
         isRush: true,
+        time: end.min + 1,
         loops: end.loop,
         taskIds: selectedTaskIds,
       });
       const data = response?.data
-      console.log("Rush created:", response);
       if (data.insertedId) {
         setPomodoreTasksId(data.insertedId);
         const fetchedTasks = await getData(`/api/users/${userId}/rushs/${data.insertedId}`);

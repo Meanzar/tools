@@ -1,28 +1,45 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
-import { handleUser } from '@/lib/api'
+import React, { useEffect, useState } from 'react'
+import { handleUser, sessionCheck } from '@/lib/api'
 import { handleInput } from '@/lib/service'
 import { useUserStore } from '@/lib/stores/useUser'
 import Link from 'next/link'
 
-export default function Register() {
+export default function Login() {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const router = useRouter()
 
-  const url = `/api/auth/login`
+  const url = process.env.NEXT_PUBLIC_API_URL || 'default'
 
+
+   useEffect(()  => {
+
+    async function check() {
+    const sessionRes = await sessionCheck(url)
+      if (sessionRes?.ok) {
+        useUserStore.getState().setUser( sessionRes?.data.userId, sessionRes?.data.isConnected)
+        router.push('/rush')
+      }
+      else {
+        useUserStore.getState().setUser( "", false)
+      }
+    }
+    check()
+  }, [url, router])
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const body = { email, password}
 
-    const res = await handleUser(url, body)
-    const data =  await res?.data
+    const res = await handleUser(url + '/auth/login', body)
     if (res?.ok) {
-        useUserStore.getState().setToken(data.token)
-        router.push("/rush")
+      const sessionRes = await sessionCheck(url)
+      if (sessionRes?.ok) {
+        useUserStore.getState().setUser( sessionRes?.data.userId, sessionRes?.data.isConnected)
+        router.push('/rush')
+      }
     } else {
       console.error("Erreur lors de la connexion")
     }

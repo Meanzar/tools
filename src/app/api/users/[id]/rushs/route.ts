@@ -25,6 +25,7 @@ export async function POST(request: NextRequest, props: {params: Promise<{id: st
     const db = client.db('tools')
     const rushToInsert = {
         isRush: parsed.isRush,
+        time: parsed.time,
         loops: parsed.loops,
         taskIds: parsed.taskIds,
         userId: new ObjectId(userId),

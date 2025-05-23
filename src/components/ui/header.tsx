@@ -55,11 +55,9 @@ export default function Header() {
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
-
-        {/* Auth Button */}
         {isConnected ? (
           <div>
-          <Link href={`/auth/${userId}/dashboard`} className="text-sm text-[#8F2412] font-medium hover:underline">
+          <Link href={`/user/${userId}/dashboard`} className="text-sm text-[#8F2412] font-medium hover:underline">
             Mon Espace
           </Link>
           <Button onClick={logout}>

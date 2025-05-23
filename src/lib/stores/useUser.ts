@@ -1,39 +1,35 @@
 // lib/stores/useUserStore.ts
 import { create } from 'zustand'
 import { persist } from "zustand/middleware"
-import { jwtDecode } from 'jwt-decode'
+import { logout } from '../api'
 
 type UserState = {
   userId: string | null
+  isConnected: boolean
   isHydrated?: boolean
-  setToken: (token: string) => void
+  setUser: (userId: string, isConnected: boolean) => void
   logout: () => void
 }
 
-type TokenPayload = {
-  _id: string
-  email: string
-  exp: number
-}
 
 export const useUserStore = create<UserState>()(
   persist(
     (set) => {
       const store = {
         userId: null,
+        isConnected: false,
         isHydrated: false,
-        setToken: (token: string) => {
+        setUser: (userId: string, isConnected: boolean) => {
           try {
-            const decoded = jwtDecode<TokenPayload>(token);
-            localStorage.setItem('token', token);
-            set({ userId: decoded._id });
+            set({ userId: userId, isConnected: isConnected, });
           } catch (err) {
             console.error('Invalid token:', err);
+            set({userId: null, isConnected: false})
           }
         },
         logout: () => {
-          localStorage.removeItem('token');
-          set({ userId: null });
+          logout('/api')
+          set({ userId: null, isConnected: false });
         },
       };
 
@@ -41,7 +37,7 @@ export const useUserStore = create<UserState>()(
     },
     {
       name: 'user-storage',
-      partialize: (state) => ({ userId: state.userId }),
+      partialize: (state) => ({ userId: state.userId, isConnected: state.isConnected }),
     }
   )
 );

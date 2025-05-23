@@ -14,7 +14,7 @@ export async function GET(request: NextRequest, props: { params: Promise<{id: st
       .find({ userId: new ObjectId(userId) })
       .toArray()
   
-    return Response.json(tasks)
+    return Response.json(tasks, {status:200})
   }
 export async function POST(request: NextRequest, props: {params: Promise<{id: string}>}) {
     const params = await props.params;
@@ -38,13 +38,14 @@ export async function POST(request: NextRequest, props: {params: Promise<{id: st
 
 export async function DELETE(request: NextRequest) {
     const body = await request.json()
-    if (!ObjectId.isValid(body.id)) {
-        return new Response(JSON.stringify({ error: 'Invalid ObjectId' }), { status: 400 });
-      }
-    const id = new ObjectId(body.id);
+    const id = new ObjectId(body);
+    console.log("id", id)
+    if (!ObjectId.isValid(id)) {
+      return new Response(JSON.stringify({ error: 'Invalid ObjectId' }), { status: 400 });
+    }
     const client = await clientPromise
     const db = client.db('tools')
     const results = db.collection('tasks').deleteOne({_id:  id})
 
-    return Response.json({results})
+    return Response.json({results}, {status:200})
 }

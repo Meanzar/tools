@@ -9,11 +9,11 @@ import { Label } from '@radix-ui/react-label';
 import { Card, CardContent, CardTitle, CardFooter } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
-import { getData } from '@/lib/api';
+import { deleteData, getData } from '@/lib/api';
 import Link from 'next/link';
 import { useUserStore } from '@/lib/stores/useUser';
 
-
+const url = process.env.NEXT_PUBLIC_API_URL || '/api'
 
 export default function PomodorePage() {
   const [end, setEnd] = useState<Timer>({
@@ -53,7 +53,6 @@ export default function PomodorePage() {
   const chrono = useChrono(end, userId?.toString(), selectedTasks);
   const toggleSelection = (taskIds: string[]) => {
     setSelectedTasks((prev) =>(
-      console.log(prev, taskIds[0]),  
       prev.includes(taskIds[0]) ? prev.filter((id) => id !== taskIds[0]) : [...prev, taskIds[0]])
     );
   };
@@ -239,6 +238,7 @@ export default function PomodorePage() {
                               </span>
                             ))}
                           </div>
+                          <span onClick={() => deleteData(url + `/users/${userId}/tasks`, task._id)}>Delete</span>
                         </li>
                       ))}
                     </ul>
